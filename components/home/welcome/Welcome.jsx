@@ -20,7 +20,7 @@ const Welcome = () => {
   const [activeJobType, setActiveJobType]= useState('Full-time');
 
   return (
-    <view>
+    <View>
       <View style={styles.container}>
         <Text style={styles.userName}>Hello Isomer</Text>
         <Text style={styles.welcomeMessage}>Find your perfect job</Text>
@@ -39,10 +39,9 @@ const Welcome = () => {
 
         <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
           <Image
-          
-          source={icons.search}
-          resizeMode="contain"
-          style={styles.searchBtnImage}
+            source={icons.search}
+            resizeMode="contain"
+            style={styles.searchBtnImage}
           />
         </TouchableOpacity>
       </View>
@@ -70,7 +69,7 @@ const Welcome = () => {
 
 
 
-    </view>
+    </View>
   );
 };
 
