@@ -41,7 +41,7 @@ const options = {
     } finally {
         setIsLoading(false);
     }
-  }
+ 
 
   useEffect(() => {
     fetchData();
@@ -54,9 +54,13 @@ const options = {
 
   return { data, isLoading, error, refetch};
 
+}
+
   try {
       const response = await axios.request(options);
       console.log(response.data);
   } catch (error) {
       console.error(error);
   }
+
+  export default useFetch;
