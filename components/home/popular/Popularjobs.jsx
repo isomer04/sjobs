@@ -17,6 +17,13 @@ const Popularjobs = () => {
    num_pages: 1 
   })
 
+  const [SelectedJob, setSelectedJob] = useState()
+
+
+  const handleCardPress = (item) => {
+    
+  }
+
   console.log(data);
 
   return (
