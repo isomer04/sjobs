@@ -5,20 +5,19 @@ import styles from "./company.style";
 import { icons } from "../../../constants";
 import { checkImageURL } from "../../../utils";
 
-const Company = ({ companyLogo, jobTitle, companyName, Location }) => {
+const Company = ({ companyLogo, jobTitle, companyName, location }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoBox}>
         <Image
           source={{
-            url: checkImageURL(companyLogo)
+            uri: checkImageURL(companyLogo)
               ? companyLogo
               : "https://t4.ftcdn.net/jpg/05/05/61/73/360_F_505617309_NN1CW7diNmGXJfMicpY9eXHKV4sqzO5H.jpg",
           }}
           style={styles.logoImage}
         />
       </View>
-
 
       <View style={styles.jobTitleBox}>
         <Text style={styles.jobTitle}>{jobTitle}</Text>
@@ -27,12 +26,12 @@ const Company = ({ companyLogo, jobTitle, companyName, Location }) => {
       <View style={styles.companyInfoBox}>
         <Text style={styles.companyName}>{companyName} / </Text>
         <View style={styles.locationBox}>
-          <Image 
+          <Image
             source={icons.location}
-            resizeMode="contain"
+            resizeMode='contain'
             style={styles.locationImage}
-            />
-            <Text style={styles.locationName}>{Location}</Text>
+          />
+          <Text style={styles.locationName}>{location}</Text>
         </View>
       </View>
     </View>
