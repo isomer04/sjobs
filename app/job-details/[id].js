@@ -1,4 +1,3 @@
-
 import {
   Text,
   View,
@@ -6,6 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { Stack, useRouter, useSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
@@ -19,6 +19,7 @@ import {
 } from "../../components";
 import { COLORS, icons, SIZES } from "../../constants";
 import useFetch from "../../hook/useFetch";
+import Share from "react-native-share";
 
 const tabs = ["About", "Qualifications", "Responsibilities"];
 
@@ -29,23 +30,36 @@ const JobDetails = () => {
     job_id: params.id,
   });
 
- 
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    refetch()
-    setRefreshing(false)
+    refetch();
+    setRefreshing(false);
   }, []);
 
+  const handleShare = async () => {
+    try {
+      const shareOptions = {
+        title: "Share via",
+        message: `Check out this job opportunity at ${data[0]?.employer_name}: ${data[0]?.job_title}`,
+        url: data[0]?.job_google_link, 
+      };
+
+      const result = await Share.open(shareOptions);
+      console.log(result);
+    } catch (error) {
+      console.error("Error sharing:", error.message);
+    }
+  };
 
   const displayTabContent = () => {
     switch (activeTab) {
       case "Qualifications":
         return (
           <Specifics
-            title='Qualifications'
+            title="Qualifications"
             points={data[0].job_highlights?.Qualifications ?? ["N/A"]}
           />
         );
@@ -56,7 +70,7 @@ const JobDetails = () => {
       case "Responsibilities":
         return (
           <Specifics
-            title='Responsibilities'
+            title="Responsibilities"
             points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
           />
         );
@@ -75,23 +89,27 @@ const JobDetails = () => {
           headerLeft: () => (
             <ScreenHeaderBtn
               iconUrl={icons.left}
-              dimension='60%'
+              dimension="60%"
               handlePress={() => router.back()}
             />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
+            <TouchableOpacity onPress={handleShare}>
+              <ScreenHeaderBtn iconUrl={icons.share} dimension="60%" />
+            </TouchableOpacity>
           ),
           headerTitle: "",
         }}
       />
       <>
-        <ScrollView showsVerticalScrollIndicator={false}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           {isLoading ? (
-            <ActivityIndicator size='large' color={COLORS.primary} />
+            <ActivityIndicator size="large" color={COLORS.primary} />
           ) : error ? (
             <Text>Something went wrong</Text>
           ) : data.length === 0 ? (
@@ -115,7 +133,12 @@ const JobDetails = () => {
           )}
         </ScrollView>
 
-        <JobFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results/'} />
+        <JobFooter
+          url={
+            data[0]?.job_google_link ??
+            "https://careers.google.com/jobs/results/"
+          }
+        />
       </>
     </SafeAreaView>
   );
