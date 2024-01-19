@@ -72,7 +72,7 @@ Make sure you have the following installed on your machine:
 
 ```bash
 git clone https://github.com/isomer04/sjobs.git
-cd project_react_native_jobs
+cd sjobs
 ```
 
 **Installation**
